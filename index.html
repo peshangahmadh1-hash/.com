@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>DowanloaderPro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Monetag Anti-Adblock & In-App Script -->
+    <!-- لە شوێنی YOUR_MONETAG_ZONE_ID کۆدی خۆت دابنێ -->
+    <script src="https://alwingulla.com/88/tag.min.js" data-zone="YOUR_MONETAG_ZONE_ID" async data-cfasync="false"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: #090a0f;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 15px 40px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 25px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pro {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .platform-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 25px;
+        }
+
+        .platform-card {
+            background: #13151f;
+            border: 1px solid #222638;
+            border-radius: 16px;
+            padding: 16px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card i { font-size: 26px; color: #7e859b; transition: 0.3s; }
+        .platform-card span { font-size: 12px; font-weight: 700; color: #7e859b; transition: 0.3s; }
+
+        .platform-card.active {
+            background: #1a1d2e;
+            border-color: #00f2fe;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .platform-card.active i { color: #00f2fe; }
+        .platform-card.active span { color: #ffffff; }
+
+        .main-card {
+            width: 100%;
+            max-width: 600px;
+            background: #13151f;
+            border: 1px solid #222638;
+            border-radius: 24px;
+            padding: 30px 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            color: #7e859b;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quality-options {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .q-chip {
+            background: #090a0f;
+            border: 1px solid #222638;
+            color: #7e859b;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .q-chip.active {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: #00f2fe;
+            color: #00f2fe;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 18px 100px 18px 18px;
+            background: #090a0f;
+            border: 2px solid #222638;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-paste {
+            position: absolute;
+            right: 8px;
+            background: #222638;
+            color: #00f2fe;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-paste:hover { background: #00f2fe; color: #000; }
+
+        @keyframes slowRgbGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-download-wrapper {
+            padding: 3px;
+            border-radius: 18px;
+            background: linear-gradient(90deg, #ff0055, #7a00ff, #00ffff, #00ff88, #ff0055);
+            background-size: 300% 300%;
+            animation: slowRgbGradient 8s ease infinite;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-download-wrapper:active { transform: scale(0.98); }
+
+        .btn-download {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            background: #090a0f;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 15px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-download span {
+            background: linear-gradient(90deg, #00ffff, #00ff88, #ff00ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slowRgbGradient 6s ease infinite;
+        }
+
+        .btn-download i { color: #00ffff; }
+
+        /* Slow Motion RGB Frame for Download/Result Area */
+        .preview-box-rgb-wrapper {
+            display: none;
+            margin-top: 25px;
+            padding: 3px;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #00f2fe, #9b51e0, #ff007a, #00f2fe);
+            background-size: 300% 300%;
+            animation: slowRgbGradient 10s ease infinite;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.25);
+        }
+
+        .preview-box {
+            background: #0d0f18;
+            border-radius: 17px;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .video-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .video-thumb {
+            width: 85px;
+            height: 85px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #090a0f;
+        }
+
+        .video-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .video-title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-author { font-size: 12px; color: #7e859b; }
+
+        .download-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dl-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: #1a1d2e;
+            border: 1px solid #282d47;
+            border-radius: 14px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .dl-link-btn:hover { border-color: #00f2fe; background: #22273f; }
+        .dl-link-btn i { color: #00f2fe; }
+
+        #statusText { margin-top: 15px; font-size: 13px; font-weight: 600; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-cloud-arrow-down"></i> DowanloaderPro
+        </div>
+        <span class="badge-pro">ULTRA HD</span>
+    </header>
+
+    <div class="platform-bar">
+        <div class="platform-card active" onclick="switchPlatform('TikTok', this, 'Paste TikTok Link Here!')">
+            <i class="fa-brands fa-tiktok"></i>
+            <span>TikTok</span>
+        </div>
+        <div class="platform-card" onclick="switchPlatform('YouTube', this, 'Paste YouTube Link Here!')">
+            <i class="fa-brands fa-youtube"></i>
+            <span>YouTube</span>
+        </div>
+        <div class="platform-card" onclick="switchPlatform('Snapchat', this, 'Paste Snapchat Link Here!')">
+            <i class="fa-brands fa-snapchat"></i>
+            <span>Snapchat</span>
+        </div>
+        <div class="platform-card" onclick="switchPlatform('Facebook', this, 'Paste Facebook Link Here!')">
+            <i class="fa-brands fa-facebook"></i>
+            <span>Facebook</span>
+        </div>
+    </div>
+
+    <div class="main-card">
+        <h1 class="hero-title" id="platformTitle">TikTok Downloader</h1>
+        <p class="hero-subtitle">Fast, Free & Watermark-Free Downloads</p>
+
+        <div class="quality-options">
+            <span class="q-chip active" onclick="selectQuality(this)">Auto Best</span>
+            <span class="q-chip" onclick="selectQuality(this)">4K / HD</span>
+            <span class="q-chip" onclick="selectQuality(this)">1080p</span>
+            <span class="q-chip" onclick="selectQuality(this)">MP3 Audio</span>
+        </div>
+
+        <div class="input-wrapper">
+            <input type="text" id="urlInput" placeholder="Paste TikTok Link Here!">
+            <button class="btn-paste" onclick="pasteFromClipboard()">
+                <i class="fa-regular fa-clipboard"></i> Paste
+            </button>
+        </div>
+
+        <div class="btn-download-wrapper" onclick="startProcess()">
+            <button class="btn-download">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Download Now</span>
+            </button>
+        </div>
+
+        <div id="statusText"></div>
+
+        <!-- Result Box with RGB Slow Motion Frame -->
+        <div class="preview-box-rgb-wrapper" id="previewBoxWrapper">
+            <div class="preview-box">
+                <div class="video-info">
+                    <img src="" id="videoThumb" class="video-thumb" alt="Thumbnail">
+                    <div class="video-details">
+                        <div class="video-title" id="videoTitle">Video Title Here</div>
+                        <div class="video-author" id="videoAuthor">@creator</div>
+                    </div>
+                </div>
+
+                <div class="download-options" id="downloadOptions"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchPlatform(platform, element, placeholderText) {
+            document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+
+            document.getElementById('platformTitle').innerText = platform + ' Downloader';
+            document.getElementById('urlInput').placeholder = placeholderText;
+            document.getElementById('previewBoxWrapper').style.display = 'none';
+            document.getElementById('statusText').innerHTML = '';
+        }
+
+        function selectQuality(el) {
+            document.querySelectorAll('.q-chip').forEach(chip => chip.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if(text) {
+                    document.getElementById('urlInput').value = text;
+                }
+            } catch (err) {
+                alert('Please allow Clipboard access or paste manually.');
+            }
+        }
+
+        function startProcess() {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const statusText = document.getElementById('statusText');
+
+            if (!urlInput) {
+                statusText.style.color = '#ff3b30';
+                statusText.innerHTML = '⚠️ Please paste a valid link first!';
+                return;
+            }
+
+            fetchDownload();
+        }
+
+        async function fetchDownload() {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const statusText = document.getElementById('statusText');
+            const previewBoxWrapper = document.getElementById('previewBoxWrapper');
+
+            statusText.style.color = '#00f2fe';
+            statusText.innerHTML = '⏳ Processing video details...';
+            previewBoxWrapper.style.display = 'none';
+
+            try {
+                const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(urlInput)}`);
+                const data = await res.json();
+
+                if (data && data.code === 0) {
+                    statusText.innerHTML = '';
+                    
+                    document.getElementById('videoThumb').src = data.data.cover || 'https://via.placeholder.com/85';
+                    document.getElementById('videoTitle').innerText = data.data.title || 'HD Video Content';
+                    document.getElementById('videoAuthor').innerText = '@' + (data.data.author.unique_id || 'creator');
+
+                    const optionsBox = document.getElementById('downloadOptions');
+                    optionsBox.innerHTML = `
+                        <a href="${data.data.play}" class="dl-link-btn" target="_blank" download>
+                            <span><i class="fa-solid fa-film"></i> Download No-Watermark HD</span>
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        <a href="${data.data.wmplay || data.data.play}" class="dl-link-btn" target="_blank" download>
+                            <span><i class="fa-solid fa-video"></i> Download Normal SD</span>
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        <a href="${data.data.music}" class="dl-link-btn" target="_blank" download>
+                            <span><i class="fa-solid fa-music"></i> Download MP3 Audio</span>
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    `;
+
+                    previewBoxWrapper.style.display = 'block';
+                } else {
+                    statusText.style.color = '#ff3b30';
+                    statusText.innerHTML = '❌ Link is invalid or private.';
+                }
+            } catch (err) {
+                statusText.style.color = '#ff3b30';
+                statusText.innerHTML = '❌ Unable to connect to server.';
+            }
+        }
+    </script>
+</body>
+</html>
